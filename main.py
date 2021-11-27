@@ -28,9 +28,9 @@ class Floor:
         self.size = size
         self.objects = objects
         self.mask = None
-        for object in objects:
+        for object, value in objects.items():
             if getattr(self, object, None) is None:
-                setattr(self, object, objects[object])
+                setattr(self, object, value)
 
     def render(self, surface: pg.Surface):
         surface.fill(BLACK)
@@ -123,11 +123,7 @@ class Bot:
 
     def algorithm(self, collisions):
         botCol, sensorCol = collisions
-        if sensorCol:
-            self.speed = self.colSpeed
-        else:
-            self.speed = self.maxSpeed
-
+        self.speed = self.colSpeed if sensorCol else self.maxSpeed
         if botCol:
             self.reversingTimer = 100
         if self.reversingTimer > 0:
